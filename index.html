@@ -142,18 +142,21 @@
         var clas = $('#class').val();
         var roll = $('#roll').val();
         var row = "";
-        row += `<tr>`;
+        row += `<tr data-name='${name}'data-class='${clas}'data-roll='${roll}'>`;
         row += `<td>${name}</td>`;
         row += `<td>${clas}</td>`;
         row += `<td>${roll}</td>`;
-        row += `<td><i class="fa fa-edit text" id="edit" style="font-size:36px; color:#ff4500"></i>  <i class="fa fa-trash-o text" id="delete" style="font-size:36px;color:#dc3545"></i></td>`;
+        row += `<td><i class="fa fa-edit text btn-edit" id="edit" style="font-size:36px; color:#ff4500"></i>  <i class="fa fa-trash-o text" id="delete" style="font-size:36px;color:#dc3545"></i></td>`;
         row += `<tr>`;
         $("table thead").append(row);
 
-        $('#tbl').on('click','#delete',function(){
-        $(this).closest('tr').remove();
+        // $('#tbl').on('click','#delete',function(){
+        // $(this).closest('tr').remove();
 
-        });
+        // });
+
+        
+
 
       //   $("#edit").click(function(){
       //   console.log('j')
@@ -161,6 +164,46 @@
       
 
       });
+
+      $('body').on('click','#delete',function() {
+          $(this).parents('tr').remove();
+       });
+
+       
+
+       $('body').on('click','#edit',function() {
+      var name=$(this).parents('tr').attr('data-name');
+      var clas=$(this).parents('tr').attr('data-class');
+      var roll=$(this).parents('tr').attr('data-roll');
+
+      $(this).parents('tr').find('td:eq(0)').html("<input name='edit_text' value='"+name+"'>");
+      $(this).parents('tr').find('td:eq(1)').html("<input name='edit_clas' value='"+clas+"'>");
+      $(this).parents('tr').find('td:eq(2)').html("<input name='edit_roll' value='"+roll+"'>");
+
+      $(this).parents('tr').find('td:eq(3)').prepend(`<i class="fa fa-check text btn-update"  style="font-size:36px; color:#198754"></i> &nbsp; `);
+      $(this).hide()
+    });
+
+
+    $('body').on('click','.btn-update',function() {
+      var name=$(this).parents('tr').find("input[name='edit_text']").val();
+      var clas=$(this).parents('tr').find("input[name='edit_clas']").val();
+      var roll=$(this).parents('tr').find("input[name='edit_roll']").val();
+
+      $(this).parents('tr').find('td:eq(0)').text(name);
+      $(this).parents('tr').find('td:eq(1)').text(clas);
+      $(this).parents('tr').find('td:eq(2)').text(roll);
+
+      $(this).parents('tr').attr('data-name',name);
+      $(this).parents('tr').attr('data-class',clas);
+      $(this).parents('tr').attr('data-roll',rol);
+
+      $(this).parents('tr').find('.btn-edit').show();
+      $(this).parents('tr').find('.btn-update').remove();
+
+
+    });
+
 
       
  
